@@ -1,6 +1,3 @@
-# GunFight
-A simple game
-
 
 # Gun Fight Game
 
