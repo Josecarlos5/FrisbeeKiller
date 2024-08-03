@@ -13,38 +13,53 @@ body {
     position: relative;
     width: 800px;
     height: 400px;
-    background-color: #87CEEB; /* Sky blue color */
+    background-color: #555;
     border: 2px solid #000;
+    overflow: hidden;
+}
+
+#sun {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    background-color: yellow;
+    border-radius: 50%;
+}
+
+.tree {
+    position: absolute;
+    width: 40px;
+    height: 80px;
+    background-color: #8B4513;
+}
+
+#tree1 {
+    left: 100px;
+    bottom: 20px;
+}
+
+#tree2 {
+    right: 100px;
+    bottom: 20px;
 }
 
 .player {
     position: absolute;
-    bottom: 20px;
-    width: 30px;
-    height: 60px;
-    background-color: #ffcc00; /* Body color */
-    border: 2px solid #000;
-    border-radius: 5px;
-}
-
-.player::before {
-    content: '';
-    position: absolute;
-    top: -20px;
-    left: 5px;
-    width: 20px;
-    height: 20px;
-    background-color: #ffcc00; /* Head color */
-    border: 2px solid #000;
-    border-radius: 50%;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: red;
 }
 
 #player1 {
-    left: 20px;
+    top: 20px;
 }
 
 #player2 {
-    right: 20px;
+    top: 330px;
+    left: 730px;
 }
 
 .bullet {
@@ -56,11 +71,11 @@ body {
 }
 
 #bullet1 {
+    top: 35px;
     left: 70px;
-    bottom: 45px;
 }
 
 #bullet2 {
-    right: 70px;
-    bottom: 45px;
+    top: 345px;
+    left: 720px;
 }
