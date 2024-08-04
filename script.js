@@ -1,15 +1,12 @@
-
 const player1 = document.getElementById('player1');
 const player2 = document.getElementById('player2');
-const bullet1 = document.getElementById('bullet1');
-const bullet2 = document.getElementById('bullet2');
+const gameContainer = document.getElementById('game-container');
 const getReady = document.getElementById('get-ready');
 const player1ScoreElement = document.getElementById('player1-score');
 const player2ScoreElement = document.getElementById('player2-score');
 
 let player1Score = 0;
 let player2Score = 0;
-let bullet1Interval, bullet2Interval;
 
 document.addEventListener('keydown', (e) => {
     switch (e.key) {
@@ -26,10 +23,10 @@ document.addEventListener('keydown', (e) => {
             movePlayer(player2, 10);
             break;
         case 'd':
-            fireBullet(bullet1, 5, 'right');
+            fireBullet(player1, 'right');
             break;
-        case 'ArrowLeft':
-            fireBullet(bullet2, 5, 'left');
+        case 'ArrowRight':
+            fireBullet(player2, 'left');
             break;
     }
 });
@@ -39,17 +36,21 @@ function movePlayer(player, distance) {
     player.style.top = `${top + distance}px`;
 }
 
-function fireBullet(bullet, speed, direction) {
-    bullet.style.display = 'block';
-    let left = parseInt(window.getComputedStyle(bullet).left);
+function fireBullet(player, direction) {
+    const bullet = document.createElement('div');
+    bullet.classList.add('bullet');
+    gameContainer.appendChild(bullet);
 
-    clearInterval(bullet === bullet1 ? bullet1Interval : bullet2Interval);
+    const playerRect = player.getBoundingClientRect();
+    bullet.style.top = `${playerRect.top + playerRect.height / 2 - 5}px`;
+    bullet.style.left = direction === 'right' ? `${playerRect.right}px` : `${playerRect.left - 10}px`;
 
+    const speed = 5;
     const move = () => {
+        let left = parseInt(window.getComputedStyle(bullet).left);
         left += direction === 'right' ? speed : -speed;
         bullet.style.left = `${left}px`;
 
-        // Check for collision
         if (checkCollision(bullet, direction === 'right' ? player2 : player1)) {
             if (direction === 'right') {
                 player1Score++;
@@ -61,14 +62,13 @@ function fireBullet(bullet, speed, direction) {
             resetGame();
         }
 
-        // Reset bullet if it goes out of bounds
         if (left < 0 || left > 800) {
-            bullet.style.display = 'none';
-            clearInterval(bullet === bullet1 ? bullet1Interval : bullet2Interval);
+            bullet.remove();
+            clearInterval(bulletInterval);
         }
     };
 
-    bullet === bullet1 ? bullet1Interval = setInterval(move, 30) : bullet2Interval = setInterval(move, 30);
+    const bulletInterval = setInterval(move, 30);
 }
 
 function checkCollision(bullet, player) {
@@ -84,14 +84,12 @@ function checkCollision(bullet, player) {
 }
 
 function resetGame() {
-    bullet1.style.display = 'none';
-    bullet2.style.display = 'none';
-    clearInterval(bullet1Interval);
-    clearInterval(bullet2Interval);
+    const bullets = document.querySelectorAll('.bullet');
+    bullets.forEach(bullet => bullet.remove());
+
     player1.style.top = '50%';
     player2.style.top = '50%';
-    bullet1.style.left = '60px';
-    bullet2.style.left = '720px';
+
     getReady.style.display = 'block';
     setTimeout(() => getReady.style.display = 'none', 2000);
 }
@@ -102,3 +100,4 @@ function updateScore() {
 }
 
 resetGame();
+
