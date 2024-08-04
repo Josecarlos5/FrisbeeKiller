@@ -28,7 +28,7 @@ document.addEventListener('keydown', (e) => {
         case 'd':
             fireBullet(bullet1, 5, 'right');
             break;
-        case 'ArrowRight':
+        case 'ArrowLeft':
             fireBullet(bullet2, 5, 'left');
             break;
     }
