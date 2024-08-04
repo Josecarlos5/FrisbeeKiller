@@ -1,8 +1,14 @@
+
 const player1 = document.getElementById('player1');
 const player2 = document.getElementById('player2');
 const bullet1 = document.getElementById('bullet1');
 const bullet2 = document.getElementById('bullet2');
+const getReady = document.getElementById('get-ready');
+const player1ScoreElement = document.getElementById('player1-score');
+const player2ScoreElement = document.getElementById('player2-score');
 
+let player1Score = 0;
+let player2Score = 0;
 let bullet1Interval, bullet2Interval;
 
 document.addEventListener('keydown', (e) => {
@@ -45,6 +51,12 @@ function fireBullet(bullet, speed, direction) {
 
         // Check for collision
         if (checkCollision(bullet, direction === 'right' ? player2 : player1)) {
+            if (direction === 'right') {
+                player1Score++;
+            } else {
+                player2Score++;
+            }
+            updateScore();
             alert(`${direction === 'right' ? 'Player 1' : 'Player 2'} wins!`);
             resetGame();
         }
@@ -76,8 +88,17 @@ function resetGame() {
     bullet2.style.display = 'none';
     clearInterval(bullet1Interval);
     clearInterval(bullet2Interval);
-    player1.style.top = '20px';
-    player2.style.top = '330px';
-    bullet1.style.left = '70px';
+    player1.style.top = '50%';
+    player2.style.top = '50%';
+    bullet1.style.left = '60px';
     bullet2.style.left = '720px';
+    getReady.style.display = 'block';
+    setTimeout(() => getReady.style.display = 'none', 2000);
 }
+
+function updateScore() {
+    player1ScoreElement.innerText = player1Score;
+    player2ScoreElement.innerText = player2Score;
+}
+
+resetGame();
