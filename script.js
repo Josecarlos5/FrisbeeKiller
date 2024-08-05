@@ -1,3 +1,4 @@
+
 const player1 = document.getElementById('player1');
 const player2 = document.getElementById('player2');
 const gameContainer = document.getElementById('game-container');
@@ -23,10 +24,10 @@ document.addEventListener('keydown', (e) => {
             movePlayer(player2, 10);
             break;
         case 'd':
-            fireBullet(player1, 'right');
+            fireBullet(player1, 'right', 'bullet1');
             break;
         case 'ArrowRight':
-            fireBullet(player2, 'left');
+            fireBullet(player2, 'left', 'bullet2');
             break;
     }
 });
@@ -36,14 +37,14 @@ function movePlayer(player, distance) {
     player.style.top = `${top + distance}px`;
 }
 
-function fireBullet(player, direction) {
+function fireBullet(player, direction, bulletClass) {
     const bullet = document.createElement('div');
-    bullet.classList.add('bullet');
+    bullet.classList.add(bulletClass);
     gameContainer.appendChild(bullet);
 
     const playerRect = player.getBoundingClientRect();
     const gameContainerRect = gameContainer.getBoundingClientRect();
-    
+
     bullet.style.top = `${playerRect.top - gameContainerRect.top + playerRect.height / 2 - 5}px`;
     bullet.style.left = direction === 'right' ? `${playerRect.right - gameContainerRect.left}px` : `${playerRect.left - gameContainerRect.left - 10}px`;
 
@@ -109,7 +110,7 @@ function checkCollisionWithBarriers(bullet) {
 }
 
 function resetGame() {
-    const bullets = document.querySelectorAll('.bullet');
+    const bullets = document.querySelectorAll('.bullet1, .bullet2');
     bullets.forEach(bullet => bullet.remove());
 
     player1.style.top = '50%';
