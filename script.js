@@ -1,3 +1,4 @@
+
 const player1 = document.getElementById('player1');
 const player2 = document.getElementById('player2');
 const gameContainer = document.getElementById('game-container');
@@ -25,7 +26,7 @@ document.addEventListener('keydown', (e) => {
         case 'd':
             fireBullet(player1, 'right');
             break;
-        case 'm':
+        case 'ArrowRight':
             fireBullet(player2, 'left');
             break;
     }
@@ -51,15 +52,20 @@ function fireBullet(player, direction) {
         left += direction === 'right' ? speed : -speed;
         bullet.style.left = `${left}px`;
 
-        if (checkCollision(bullet, direction === 'right' ? player2 : player1)) {
-            if (direction === 'right') {
-                player1Score++;
-            } else {
-                player2Score++;
+        // Check for collision with barriers
+        if (checkCollisionWithBarriers(bullet) || checkCollision(bullet, direction === 'right' ? player2 : player1)) {
+            bullet.remove();
+            clearInterval(bulletInterval);
+            if (checkCollision(bullet, direction === 'right' ? player2 : player1)) {
+                if (direction === 'right') {
+                    player1Score++;
+                } else {
+                    player2Score++;
+                }
+                updateScore();
+                alert(`${direction === 'right' ? 'Player 1' : 'Player 2'} wins!`);
+                resetGame();
             }
-            updateScore();
-            alert(`${direction === 'right' ? 'Player 1' : 'Player 2'} wins!`);
-            resetGame();
         }
 
         if (left < 0 || left > 800) {
@@ -83,6 +89,24 @@ function checkCollision(bullet, player) {
     );
 }
 
+function checkCollisionWithBarriers(bullet) {
+    const barriers = document.querySelectorAll('.tree, .obstacle');
+    const bulletRect = bullet.getBoundingClientRect();
+
+    for (let barrier of barriers) {
+        const barrierRect = barrier.getBoundingClientRect();
+        if (
+            bulletRect.left < barrierRect.right &&
+            bulletRect.right > barrierRect.left &&
+            bulletRect.top < barrierRect.bottom &&
+            bulletRect.bottom > barrierRect.top
+        ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function resetGame() {
     const bullets = document.querySelectorAll('.bullet');
     bullets.forEach(bullet => bullet.remove());
@@ -100,4 +124,3 @@ function updateScore() {
 }
 
 resetGame();
-
