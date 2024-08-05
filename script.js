@@ -25,7 +25,7 @@ document.addEventListener('keydown', (e) => {
         case 'd':
             fireBullet(player1, 'right');
             break;
-        case 'ArrowLeft':
+        case 'm':
             fireBullet(player2, 'left');
             break;
     }
