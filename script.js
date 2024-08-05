@@ -42,8 +42,10 @@ function fireBullet(player, direction) {
     gameContainer.appendChild(bullet);
 
     const playerRect = player.getBoundingClientRect();
-    bullet.style.top = `${playerRect.top + window.scrollY + playerRect.height / 2 - 5}px`;
-    bullet.style.left = direction === 'right' ? `${playerRect.right + window.scrollX}px` : `${playerRect.left + window.scrollX - 10}px`;
+    const gameContainerRect = gameContainer.getBoundingClientRect();
+    
+    bullet.style.top = `${playerRect.top - gameContainerRect.top + playerRect.height / 2 - 5}px`;
+    bullet.style.left = direction === 'right' ? `${playerRect.right - gameContainerRect.left}px` : `${playerRect.left - gameContainerRect.left - 10}px`;
 
     const speed = 5;
     const move = () => {
