@@ -39,6 +39,7 @@ function movePlayer(player, distance) {
 
 function fireBullet(player, direction, bulletClass) {
     const bullet = document.createElement('div');
+    bullet.classList.add('bullet');
     bullet.classList.add(bulletClass);
     gameContainer.appendChild(bullet);
 
