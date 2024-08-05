@@ -1,4 +1,3 @@
-
 const player1 = document.getElementById('player1');
 const player2 = document.getElementById('player2');
 const gameContainer = document.getElementById('game-container');
@@ -43,8 +42,8 @@ function fireBullet(player, direction) {
     gameContainer.appendChild(bullet);
 
     const playerRect = player.getBoundingClientRect();
-    bullet.style.top = `${playerRect.top + playerRect.height / 2 - 5}px`;
-    bullet.style.left = direction === 'right' ? `${playerRect.right}px` : `${playerRect.left - 10}px`;
+    bullet.style.top = `${playerRect.top + window.scrollY + playerRect.height / 2 - 5}px`;
+    bullet.style.left = direction === 'right' ? `${playerRect.right + window.scrollX}px` : `${playerRect.left + window.scrollX - 10}px`;
 
     const speed = 5;
     const move = () => {
