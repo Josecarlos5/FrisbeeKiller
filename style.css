@@ -1,3 +1,4 @@
+
 @font-face {
   font-family: 'Press Start 2P';
   src: url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -73,11 +74,11 @@ body {
     transform: translateY(-50%);
 }
 
-.bullet {
+.bullet1, .bullet2 {
     position: absolute;
     width: 10px;
     height: 10px;
-    background-color: yellow;
+    background-color: black; /* Set the bullets' color to black */
 }
 
 .tree, .obstacle {
