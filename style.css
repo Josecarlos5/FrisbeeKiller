@@ -18,7 +18,7 @@ body {
     position: relative;
     width: 800px;
     height: 600px;
-    background-color: white; /* Set the background color to white */
+    background-color: black; /* Set the background color to black */
     overflow: hidden;
     border: 2px solid yellow;
 }
@@ -77,7 +77,7 @@ body {
     position: absolute;
     width: 10px;
     height: 10px;
-    background-color: black; /* Set the bullets' color to black */
+    background-color: yellow; /* Set the bullets' color to yellow */
 }
 
 .tree, .obstacle {
