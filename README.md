@@ -13,3 +13,6 @@ Gun Fight is a classic arcade-style game where two players move horizontally and
 - Two-player controls
 - Basic collision detection
 - Simple graphics and animations
+
+## To Run the Game
+https://josecarlos5.github.io/GunFight/
