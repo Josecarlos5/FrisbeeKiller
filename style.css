@@ -29,6 +29,7 @@ body {
     right: 20px;
     width: 100px;
     height: 100px;
+   transform: scale(4.5); /* Scale the sun symbol by 1.2 times */
 }
 
 #score {
