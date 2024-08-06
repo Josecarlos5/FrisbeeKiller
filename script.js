@@ -16,9 +16,27 @@ document.addEventListener("DOMContentLoaded", () => {
     function movePlayer(player, direction) {
         const step = 10;
         const currentLeft = parseInt(window.getComputedStyle(player).left);
-        const newLeft = direction === "left" ? currentLeft - step : currentLeft + step;
-        if (newLeft >= 0 && newLeft <= (800 - 50)) {
-            player.style.left = `${newLeft}px`;
+        const currentTop = parseInt(window.getComputedStyle(player).top);
+        let newLeft = currentLeft;
+        let newTop = currentTop;
+
+        switch (direction) {
+            case "left":
+                newLeft = currentLeft - step;
+                if (newLeft >= 0) player.style.left = `${newLeft}px`;
+                break;
+            case "right":
+                newLeft = currentLeft + step;
+                if (newLeft <= (800 - 50)) player.style.left = `${newLeft}px`;
+                break;
+            case "up":
+                newTop = currentTop - step;
+                if (newTop >= 0) player.style.top = `${newTop}px`;
+                break;
+            case "down":
+                newTop = currentTop + step;
+                if (newTop <= (400 - 50)) player.style.top = `${newTop}px`;
+                break;
         }
     }
 
@@ -26,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (bullet.style.display === "none") {
             bullet.style.display = "block";
             bullet.style.left = player.style.left;
-            bullet.style.bottom = "50px";
+            bullet.style.top = player.style.top;
             moveBullet(bullet, player.id === "player1" ? "right" : "left");
         }
     }
@@ -73,6 +91,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 movePlayer(player1, "right");
                 break;
             case "w":
+                movePlayer(player1, "up");
+                break;
+            case "s":
+                movePlayer(player1, "down");
+                break;
+            case " ":
                 shootBullet(player1, bullet1);
                 break;
             case "ArrowLeft":
@@ -82,6 +106,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 movePlayer(player2, "right");
                 break;
             case "ArrowUp":
+                movePlayer(player2, "up");
+                break;
+            case "ArrowDown":
+                movePlayer(player2, "down");
+                break;
+            case "Enter":
                 shootBullet(player2, bullet2);
                 break;
         }
