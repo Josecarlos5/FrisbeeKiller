@@ -3,19 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gun Fight Game</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Gun Fight Arcade Game</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="game-container">
-        <div id="player1" class="player"></div>
-        <div id="bullet1" class="bullet"></div>
-        <div id="player2" class="player"></div>
-        <div id="bullet2" class="bullet"></div>
-    </div>
-    <div id="scoreboard">
-        <span id="player1-score">Player 1: 0</span>
-        <span id="player2-score">Player 2: 0</span>
+        <img id="sun" src="images/sun.png" alt="Sun">
+        <div id="score">Score: <span id="player1-score">0</span> - <span id="player2-score">0</span></div>
+        <div id="get-ready">GET READY</div>
+        <div id="player1" class="player"><img src="images/cowboy.png" alt="Player 1"></div>
+        <div id="player2" class="player"><img src="images/cowboy_inv.png" alt="Player 2"></div>
+        <div id="tree1" class="tree"><img src="images/tree.png" alt="Tree"></div>
+        <div id="tree2" class="tree"><img src="images/tree.png" alt="Tree"></div>
+        <div id="tree3" class="tree"><img src="images/tree.png" alt="Tree"></div>
+        <div id="tree4" class="tree"><img src="images/tree.png" alt="Tree"></div>
+        <div id="wagon" class="obstacle"><img src="images/wagon.png" alt="Wagon"></div>
     </div>
     <script src="script.js"></script>
 </body>
