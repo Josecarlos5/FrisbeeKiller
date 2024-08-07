@@ -18,7 +18,7 @@ body {
     position: relative;
     width: 800px;
     height: 600px;
-    background-color: black; /* Set the background color to black */
+    background-color: green; /* Set the background color to ... */
     overflow: hidden;
     border: 2px solid yellow;
 }
