@@ -11,8 +11,14 @@ const backgroundMusic = document.getElementById('background-music');
 let player1Score = 0;
 let player2Score = 0;
 
-// Play background music when the game starts
-backgroundMusic.play();
+// Event listener for user interaction to start the music
+document.addEventListener('keydown', () => {
+    if (backgroundMusic.paused) {
+        backgroundMusic.play().catch(error => {
+            console.log('Autoplay was prevented:', error);
+        });
+    }
+});
 
 // Event listener for keydown events to move players or fire frisbees
 document.addEventListener('keydown', (e) => {
