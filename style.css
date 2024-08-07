@@ -1,5 +1,4 @@
 
-
 @font-face {
   font-family: 'Press Start 2P';
   src: url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -29,9 +28,9 @@ body {
     position: absolute;
     top: 20px;
     right: 20px;
-    width: 100px;
-    height: 100px;
-    font-size: 100px;
+    width: 150px;
+    height: 150px;
+    font-size: 150px;
     color: orange;
 }
 
@@ -99,17 +98,30 @@ body {
 }
 
 #tree3 {
-    top: 100px;
+    top: 250px;
     right: 200px;
 }
 
-#tree4 {
-    top: 400px;
-    right: 200px;
+#dog1 {
+    top: 150px;
+    left: 350px;
+    font-size: 60px;
 }
 
-#squirrel {
-    top: 15px;
-    left: 20px;
+#dog2 {
+    top: 350px;
+    right: 350px;
+    font-size: 60px;
+}
+
+#squirrel1 {
+    top: 50px;
+    left: 100px;
+    font-size: 40px;
+}
+
+#squirrel2 {
+    bottom: 50px;
+    right: 100px;
     font-size: 40px;
 }
