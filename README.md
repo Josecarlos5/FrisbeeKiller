@@ -15,4 +15,4 @@ Frisbee Killer is a classic arcade-style game where two players move horizontall
 - Simple graphics and animations
 
 ## To Run the Game
-https://josecarlos5.github.io/GunFight/
+[https://josecarlos5.github.io/GunFight/](https://josecarlos5.github.io/FrisbeeKiller/)
