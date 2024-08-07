@@ -53,8 +53,8 @@ body {
 
 .player {
     position: absolute;
-    width: 120px;  /* Tripled size (40px * 3) */
-    height: 120px; /* Tripled size (40px * 3) */
+    width: 200px;  /* Increase size  */
+    height: 200px; /* Increase size */
 }
 
 .player img {
