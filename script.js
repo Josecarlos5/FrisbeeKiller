@@ -1,4 +1,5 @@
 
+
 // Get references to game elements
 const player1 = document.getElementById('player1');
 const player2 = document.getElementById('player2');
@@ -44,6 +45,7 @@ function movePlayer(player, distance) {
 function fireFrisbee(player, direction) {
     const frisbee = document.createElement('div');
     frisbee.classList.add('symbol');
+    frisbee.id = 'frisbee';
     frisbee.innerHTML = '🥏';
     gameContainer.appendChild(frisbee);
 
@@ -98,7 +100,7 @@ function checkCollision(frisbee, player) {
 
 // Function to check for collision between a frisbee and barriers (trees, dogs, squirrels)
 function checkCollisionWithBarriers(frisbee) {
-    const barriers = document.querySelectorAll('.tree, .symbol:not(.player):not(#sun):not(#frisbee)');
+    const barriers = document.querySelectorAll('.tree, #dog1, #dog2, #squirrel1');
     const frisbeeRect = frisbee.getBoundingClientRect();
 
     for (let barrier of barriers) {
@@ -118,7 +120,7 @@ function checkCollisionWithBarriers(frisbee) {
 // Function to reset the game
 function resetGame() {
     // Remove all frisbees
-    const frisbees = document.querySelectorAll('.symbol:not(.tree):not(.player):not(#sun):not(#frisbee)');
+    const frisbees = document.querySelectorAll('#frisbee');
     frisbees.forEach(frisbee => frisbee.remove());
 
     // Reset player positions
