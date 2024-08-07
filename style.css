@@ -1,5 +1,4 @@
 
-
 @font-face {
   font-family: 'Press Start 2P';
   src: url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -98,20 +97,9 @@ body {
     left: 200px;
 }
 
-#tree3 {
-    top: 250px;
-    right: 200px;
-}
-
 #dog1 {
     top: 150px;
     left: 350px;
-    font-size: 60px;
-}
-
-#dog2 {
-    top: 350px;
-    right: 350px;
     font-size: 60px;
 }
 
