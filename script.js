@@ -1,5 +1,4 @@
 
-
 // Get references to game elements
 const player1 = document.getElementById('player1');
 const player2 = document.getElementById('player2');
@@ -7,24 +6,28 @@ const gameContainer = document.getElementById('game-container');
 const getReady = document.getElementById('get-ready');
 const player1ScoreElement = document.getElementById('player1-score');
 const player2ScoreElement = document.getElementById('player2-score');
+const backgroundMusic = document.getElementById('background-music');
 
 let player1Score = 0;
 let player2Score = 0;
+
+// Play background music when the game starts
+backgroundMusic.play();
 
 // Event listener for keydown events to move players or fire frisbees
 document.addEventListener('keydown', (e) => {
     switch (e.key) {
         case 'w':
-            movePlayer(player1, -10);
+            movePlayer(player1, -30); // Adjusted for triple size
             break;
         case 's':
-            movePlayer(player1, 10);
+            movePlayer(player1, 30); // Adjusted for triple size
             break;
         case 'ArrowUp':
-            movePlayer(player2, -10);
+            movePlayer(player2, -30); // Adjusted for triple size
             break;
         case 'ArrowDown':
-            movePlayer(player2, 10);
+            movePlayer(player2, 30); // Adjusted for triple size
             break;
         case 'd':
             fireFrisbee(player1, 'right');
