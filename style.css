@@ -53,8 +53,8 @@ body {
 
 .player {
     position: absolute;
-    width: 40px;
-    height: 40px;
+    width: 120px;  /* Tripled size (40px * 3) */
+    height: 120px; /* Tripled size (40px * 3) */
 }
 
 .player img {
@@ -65,13 +65,13 @@ body {
 #player1 {
     left: 20px;
     top: 50%;
-    transform: translateY(+50%);
+    transform: translateY(-50%);
 }
 
 #player2 {
     right: 20px;
     top: 50%;
-    transform: translateY(+50%);
+    transform: translateY(-50%);
 }
 
 .symbol {
