@@ -75,7 +75,7 @@ body {
     transform: translateY(-50%);
 }
 
-.bullet {
+#frisbee {
     position: absolute;
     width: 10px;
     height: 10px;
