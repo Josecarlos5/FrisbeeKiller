@@ -11,14 +11,12 @@ const backgroundMusic = document.getElementById('background-music');
 let player1Score = 0;
 let player2Score = 0;
 
-// Event listener for user interaction to start the music
-document.addEventListener('keydown', () => {
-    if (backgroundMusic.paused) {
-        backgroundMusic.play().catch(error => {
-            console.log('Autoplay was prevented:', error);
-        });
-    }
-});
+// Function to start the music
+function startMusic() {
+    backgroundMusic.play().catch(error => {
+        console.log('Autoplay was prevented:', error);
+    });
+}
 
 // Event listener for keydown events to move players or fire frisbees
 document.addEventListener('keydown', (e) => {
@@ -147,5 +145,8 @@ function updateScore() {
     player2ScoreElement.innerText = player2Score;
 }
 
-// Initial game reset
-resetGame();
+// Initial game reset and start music
+window.addEventListener('load', () => {
+    resetGame();
+    startMusic();
+});
