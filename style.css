@@ -82,13 +82,6 @@ body {
     background-color: yellow; /* Set the bullets' color to yellow */
 }
 
-.tree, .obstacle {
-    position: absolute;
-    background-size: contain;
-    background-repeat: no-repeat;
-  
-}
-
 .tree img, .obstacle img {
     width: 100%;
     height: auto;
@@ -127,6 +120,7 @@ body {
 }
 
 #squirrel {
+    position: absolute;
     width: 80px;
     height: 60px;
     top: 15px;
