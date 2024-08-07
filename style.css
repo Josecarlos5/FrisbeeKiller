@@ -1,3 +1,5 @@
+
+
 @font-face {
   font-family: 'Press Start 2P';
   src: url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -18,7 +20,7 @@ body {
     position: relative;
     width: 800px;
     height: 600px;
-    background-color: green; /* Set the background color to ... */
+    background-color: green;
     overflow: hidden;
     border: 2px solid yellow;
 }
@@ -29,8 +31,8 @@ body {
     right: 20px;
     width: 100px;
     height: 100px;
-    font-size: 100px; /* Increased size */
-    color: orange; /* Set color to ... */
+    font-size: 100px;
+    color: orange;
 }
 
 #score {
@@ -54,8 +56,6 @@ body {
     position: absolute;
     width: 40px;
     height: 40px;
-    background-size: contain;
-    background-repeat: no-repeat;
 }
 
 .player img {
@@ -75,49 +75,41 @@ body {
     transform: translateY(-50%);
 }
 
+.symbol {
+    position: absolute;
+    font-size: 50px;
+}
+
 #frisbee {
     position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: yellow; /* Set the bullets' color to yellow */
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    color: yellow;
 }
 
 #tree1 {
     top: 100px;
     left: 200px;
-    width: 40px;
-    height: 80px;
-    font-size: 50px; /* Increased size */
 }
 
 #tree2 {
     top: 400px;
     left: 200px;
-    width: 40px;
-    height: 80px;
-    font-size: 50px; /* Increased size */
 }
 
 #tree3 {
     top: 100px;
     right: 200px;
-    width: 40px;
-    height: 80px;
-    font-size: 50px; /* Increased size */
 }
 
 #tree4 {
     top: 400px;
     right: 200px;
-    width: 40px;
-    height: 80px;
-    font-size: 50px; /* Increased size */
 }
 
 #squirrel {
-    width: 80px;
-    height: 60px;
     top: 15px;
     left: 20px;
-
+    font-size: 40px;
 }
