@@ -56,8 +56,8 @@ body {
 
 .player {
     position: absolute;
-    width: 20vw; /* Increased player size */
-    height: 20vw; /* Increased player size */
+    width: 40vw; /* Increased player size */
+    height: 40vw; /* Increased player size */
 }
 
 .player img {
