@@ -1,4 +1,5 @@
 
+
 // Get references to game elements
 const player1 = document.getElementById('player1');
 const player2 = document.getElementById('player2');
@@ -6,41 +7,59 @@ const gameContainer = document.getElementById('game-container');
 const getReady = document.getElementById('get-ready');
 const player1ScoreElement = document.getElementById('player1-score');
 const player2ScoreElement = document.getElementById('player2-score');
-const backgroundMusic = document.getElementById('background-music');
+
+// Get references to audio elements
+const stepSound = document.getElementById('step-sound');
+const fireSound = document.getElementById('fire-sound');
+const hitSound = document.getElementById('hit-sound');
+const backgroundSound = document.getElementById('background-sound');
 
 let player1Score = 0;
 let player2Score = 0;
 
-// Function to start the music
-function startMusic() {
-    backgroundMusic.play().catch(error => {
-        console.log('Autoplay was prevented:', error);
-    });
+// Variables to track touch positions for swipes
+let startX, startY, endX, endY;
+
+// Play background sound when the game starts
+window.onload = () => {
+    backgroundSound.play();
+};
+
+// Event listener for touch events to move players or fire frisbees
+gameContainer.addEventListener('touchstart', handleTouchStart, false);
+gameContainer.addEventListener('touchmove', handleTouchMove, false);
+gameContainer.addEventListener('touchend', handleTouchEnd, false);
+
+function handleTouchStart(evt) {
+    const firstTouch = evt.touches[0];
+    startX = firstTouch.clientX;
+    startY = firstTouch.clientY;
 }
 
-// Event listener for keydown events to move players or fire frisbees
-document.addEventListener('keydown', (e) => {
-    switch (e.key) {
-        case 'w':
-            movePlayer(player1, -30); // Adjusted for triple size
-            break;
-        case 's':
-            movePlayer(player1, 30); // Adjusted for triple size
-            break;
-        case 'ArrowUp':
-            movePlayer(player2, -30); // Adjusted for triple size
-            break;
-        case 'ArrowDown':
-            movePlayer(player2, 30); // Adjusted for triple size
-            break;
-        case 'd':
-            fireFrisbee(player1, 'right');
-            break;
-        case 'ArrowLeft':
-            fireFrisbee(player2, 'left');
-            break;
+function handleTouchMove(evt) {
+    evt.preventDefault();
+    const touch = evt.touches[0];
+    const player = touch.clientX < window.innerWidth / 2 ? player1 : player2;
+    const moveY = touch.clientY - startY;
+    
+    movePlayer(player, moveY);
+    stepSound.play();
+    
+    startY = touch.clientY;
+}
+
+function handleTouchEnd(evt) {
+    endX = evt.changedTouches[0].clientX;
+    endY = evt.changedTouches[0].clientY;
+
+    const direction = endX < window.innerWidth / 2 ? 'left' : 'right';
+    const player = direction === 'left' ? player2 : player1;
+
+    if (Math.abs(endY - startY) < 50) { // Small vertical movement means a tap, so fire frisbee
+        fireFrisbee(player, direction);
+        fireSound.play();
     }
-});
+}
 
 // Function to move a player up or down
 function movePlayer(player, distance) {
@@ -72,6 +91,7 @@ function fireFrisbee(player, direction) {
         if (checkCollision(frisbee, direction === 'right' ? player2 : player1)) {
             frisbee.remove();
             clearInterval(frisbeeInterval);
+            hitSound.play();
             if (direction === 'right') {
                 player1Score++;
             } else {
@@ -145,8 +165,5 @@ function updateScore() {
     player2ScoreElement.innerText = player2Score;
 }
 
-// Initial game reset and start music
-window.addEventListener('load', () => {
-    resetGame();
-    startMusic();
-});
+// Initial game reset
+resetGame();
