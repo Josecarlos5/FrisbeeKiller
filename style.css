@@ -18,8 +18,8 @@ body {
 #game-container {
     position: relative;
     width: 100%;
-    max-width: 800px;
     height: 100%;
+    max-width: 800px;
     max-height: 600px;
     background-color: green;
     overflow: hidden;
@@ -56,8 +56,8 @@ body {
 
 .player {
     position: absolute;
-    width: 20vw; /* Increased player size */
-    height: 20vw; /* Increased player size */
+    width: 12vw; /* Increased player size */
+    height: 12vw;
 }
 
 .player img {
@@ -110,4 +110,41 @@ body {
     top: 10%;
     left: 12%;
     font-size: 8vw;
+}
+
+/* Specific styles for laptops and larger screens */
+@media only screen and (min-width: 800px) {
+    #game-container {
+        width: 800px;
+        height: 600px;
+    }
+    
+    .player {
+        width: 80px;
+        height: 80px;
+    }
+
+    #sun {
+        width: 150px;
+        height: 150px;
+        font-size: 150px;
+    }
+
+    #frisbee {
+        width: 40px;
+        height: 40px;
+        font-size: 40px;
+    }
+
+    .symbol {
+        font-size: 50px;
+    }
+
+    #score {
+        font-size: 20px;
+    }
+
+    #get-ready {
+        font-size: 30px;
+    }
 }
