@@ -1,5 +1,4 @@
 
-
 // Get references to game elements
 const player1 = document.getElementById('player1');
 const player2 = document.getElementById('player2');
@@ -23,13 +22,53 @@ let startX, startY, endX, endY;
 // Play background sound when the game starts
 window.onload = () => {
     backgroundSound.play();
+    if (isMobileDevice()) {
+        // Set up touch controls for mobile
+        gameContainer.addEventListener('touchstart', handleTouchStart, false);
+        gameContainer.addEventListener('touchmove', handleTouchMove, false);
+        gameContainer.addEventListener('touchend', handleTouchEnd, false);
+    } else {
+        // Set up keyboard controls for desktop/laptop
+        document.addEventListener('keydown', handleKeyDown);
+    }
 };
 
-// Event listener for touch events to move players or fire frisbees
-gameContainer.addEventListener('touchstart', handleTouchStart, false);
-gameContainer.addEventListener('touchmove', handleTouchMove, false);
-gameContainer.addEventListener('touchend', handleTouchEnd, false);
+// Detect if the user is on a mobile device
+function isMobileDevice() {
+    return /Mobi|Android/i.test(navigator.userAgent);
+}
 
+// Keyboard controls for laptop/desktop
+function handleKeyDown(e) {
+    switch (e.key) {
+        case 'w':
+            movePlayer(player1, -10);
+            stepSound.play();
+            break;
+        case 's':
+            movePlayer(player1, 10);
+            stepSound.play();
+            break;
+        case 'ArrowUp':
+            movePlayer(player2, -10);
+            stepSound.play();
+            break;
+        case 'ArrowDown':
+            movePlayer(player2, 10);
+            stepSound.play();
+            break;
+        case 'd':
+            fireFrisbee(player1, 'right');
+            fireSound.play();
+            break;
+        case 'ArrowLeft':
+            fireFrisbee(player2, 'left');
+            fireSound.play();
+            break;
+    }
+}
+
+// Touch controls for mobile
 function handleTouchStart(evt) {
     const firstTouch = evt.touches[0];
     startX = firstTouch.clientX;
