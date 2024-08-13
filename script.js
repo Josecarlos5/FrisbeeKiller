@@ -29,14 +29,34 @@ window.onload = () => {
         gameContainer.addEventListener('touchend', handleTouchEnd, false);
     } else {
         // Set up keyboard controls for desktop/laptop
-        document.addEventListener('keydown', handleKeyDown);
+
+ // *** Background Music Control ***
+let backgroundMusicStarted = false; 
+         
+// Event listeners for user interaction (click or keydown)
+document.addEventListener('click', startBackgroundMusic);
+document.addEventListener('keydown', startBackgroundMusic);
+        
+
+function startBackgroundMusic() {
+    if (!backgroundMusicStarted) {
+        backgroundSound.play();
+        backgroundMusicStarted = true;
+        
+         // Remove the event listeners once music starts
+        document.removeEventListener('click', startBackgroundMusic);
+        document.removeEventListener('keydown', startBackgroundMusic);
     }
 };
+
+// *** End Background Music Control ***
 
 // Detect if the user is on a mobile device
 function isMobileDevice() {
     return /Mobi|Android/i.test(navigator.userAgent);
 }
+
+
 
 // Keyboard controls for laptop/desktop
 function handleKeyDown(e) {
