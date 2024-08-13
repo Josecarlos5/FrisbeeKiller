@@ -20,8 +20,7 @@ let player2Score = 0;
 let startX, startY, endX, endY;
 
 // Play background sound when the game starts
-window.onload = () => {
-    backgroundSound.play();
+
     if (isMobileDevice()) {
         // Set up touch controls for mobile
         gameContainer.addEventListener('touchstart', handleTouchStart, false);
