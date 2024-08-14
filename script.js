@@ -20,7 +20,10 @@ let player2Score = 0;
 let startX, startY, endX, endY;
 
 // Play background sound when the game starts
+let backgroundMusicStarted = false;
 
+window.onload = () => {
+    // Detect if the user is on a mobile device
     if (isMobileDevice()) {
         // Set up touch controls for mobile
         gameContainer.addEventListener('touchstart', handleTouchStart, false);
@@ -28,34 +31,29 @@ let startX, startY, endX, endY;
         gameContainer.addEventListener('touchend', handleTouchEnd, false);
     } else {
         // Set up keyboard controls for desktop/laptop
+        document.addEventListener('keydown', handleKeyDown);
+    }
 
- // *** Background Music Control ***
-let backgroundMusicStarted = false; 
-         
-// Event listeners for user interaction (click or keydown)
-document.addEventListener('click', startBackgroundMusic);
-document.addEventListener('keydown', startBackgroundMusic);
-        
+    // Set up the background music to start on user interaction
+    document.addEventListener('click', startBackgroundMusic);
+    document.addEventListener('keydown', startBackgroundMusic);
+};
 
 function startBackgroundMusic() {
     if (!backgroundMusicStarted) {
         backgroundSound.play();
         backgroundMusicStarted = true;
-        
-         // Remove the event listeners once music starts
+
+        // Remove the event listeners once music starts
         document.removeEventListener('click', startBackgroundMusic);
         document.removeEventListener('keydown', startBackgroundMusic);
     }
-};
-
-// *** End Background Music Control ***
+}
 
 // Detect if the user is on a mobile device
 function isMobileDevice() {
     return /Mobi|Android/i.test(navigator.userAgent);
 }
-
-
 
 // Keyboard controls for laptop/desktop
 function handleKeyDown(e) {
