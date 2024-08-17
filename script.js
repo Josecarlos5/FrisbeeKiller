@@ -22,6 +22,9 @@ let startX, startY, endX, endY;
 // Play background sound when the game starts
 let backgroundMusicStarted = false;
 
+// AI control flag
+let aiControlEnabled = true;  // Enable AI for Player 1
+
 window.onload = () => {
     // Detect if the user is on a mobile device
     if (isMobileDevice()) {
@@ -37,6 +40,11 @@ window.onload = () => {
     // Set up the background music to start on user interaction
     document.addEventListener('click', startBackgroundMusic);
     document.addEventListener('keydown', startBackgroundMusic);
+
+    // Start AI control if enabled
+    if (aiControlEnabled) {
+        startAIForPlayer1();
+    }
 };
 
 function startBackgroundMusic() {
@@ -55,17 +63,35 @@ function isMobileDevice() {
     return /Mobi|Android/i.test(navigator.userAgent);
 }
 
+// AI for Player 1 (automated movements and firing)
+function startAIForPlayer1() {
+    setInterval(() => {
+        const randomMove = Math.random() > 0.5 ? -10 : 10;
+        movePlayer(player1, randomMove); // Randomly move up or down
+        stepSound.play();
+    }, 500); // Move every 500ms
+
+    setInterval(() => {
+        fireFrisbee(player1, 'right'); // Fire towards Player 2
+        fireSound.play();
+    }, 2000); // Fire every 2 seconds
+}
+
 // Keyboard controls for laptop/desktop
 function handleKeyDown(e) {
+    if (!aiControlEnabled) { // Only allow manual control if AI is disabled
+        switch (e.key) {
+            case 'w':
+                movePlayer(player1, -10);
+                stepSound.play();
+                break;
+            case 's':
+                movePlayer(player1, 10);
+                stepSound.play();
+                break;
+        }
+    }
     switch (e.key) {
-        case 'w':
-            movePlayer(player1, -10);
-            stepSound.play();
-            break;
-        case 's':
-            movePlayer(player1, 10);
-            stepSound.play();
-            break;
         case 'ArrowUp':
             movePlayer(player2, -10);
             stepSound.play();
