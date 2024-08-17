@@ -159,13 +159,33 @@ function fireFrisbee(player, direction) {
         }
 
         // Check for collision with barriers or if the frisbee is out of bounds
-        if (checkCollisionWithBarriers(frisbee) || left < 0 || left > 800) {
+        const hitBarrier = checkCollisionWithBarriers(frisbee);
+        if (hitBarrier) {
+            clearInterval(frisbeeInterval);
+            frisbee.remove();
+            // Gradually fade out the barrier
+            fadeOutBarrier(hitBarrier);
+        } else if (left < 0 || left > 800) {
             frisbee.remove();
             clearInterval(frisbeeInterval);
         }
     };
 
     const frisbeeInterval = setInterval(move, 30);
+}
+
+// Function to gradually fade out a barrier (tree, dog, squirrel)
+function fadeOutBarrier(barrier) {
+    let opacity = 1;
+    const fadeInterval = setInterval(() => {
+        opacity -= 0.05;
+        if (opacity <= 0) {
+            barrier.remove();
+            clearInterval(fadeInterval);
+        } else {
+            barrier.style.opacity = opacity;
+        }
+    }, 50); // Reduce opacity every 50 milliseconds
 }
 
 // Function to check for collision between a frisbee and a player
@@ -194,10 +214,10 @@ function checkCollisionWithBarriers(frisbee) {
             frisbeeRect.top < barrierRect.bottom &&
             frisbeeRect.bottom > barrierRect.top
         ) {
-            return true;
+            return barrier; // Return the hit barrier element
         }
     }
-    return false;
+    return null;
 }
 
 // Function to reset the game
