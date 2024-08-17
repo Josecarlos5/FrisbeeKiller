@@ -54,10 +54,11 @@ body {
     display: none;
 }
 
+/* Increased player size */
 .player {
     position: absolute;
-    width: 12vw; /* Increased player size */
-    height: 12vw;
+    width: 20vw;  /* Increased size for mobile */
+    height: 20vw;
 }
 
 .player img {
@@ -119,9 +120,10 @@ body {
         height: 600px;
     }
     
+    /* Increased size for desktop/laptop */
     .player {
-        width: 80px;
-        height: 80px;
+        width: 150px;  /* Bigger size */
+        height: 150px;
     }
 
     #sun {
