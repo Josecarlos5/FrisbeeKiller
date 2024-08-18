@@ -6,6 +6,7 @@ const gameContainer = document.getElementById('game-container');
 const getReady = document.getElementById('get-ready');
 const player1ScoreElement = document.getElementById('player1-score');
 const player2ScoreElement = document.getElementById('player2-score');
+const gameOverScreen = document.createElement('div');  // Create the Game Over screen element
 
 // Get references to audio elements
 const stepSound = document.getElementById('step-sound');
@@ -14,17 +15,9 @@ const hitSound = document.getElementById('hit-sound');
 const backgroundSound = document.getElementById('background-sound');
 
 let player1Score = 0;
-let player2Score = 0;
+let timeLimit = 120000; // 2 minutes in milliseconds
 
-// Variables to track touch positions for swipes
-let startX, startY, endX, endY;
-
-// Play background sound when the game starts
-let backgroundMusicStarted = false;
-
-// AI control flag
-let aiControlEnabled = true;  // Enable AI for Player 1
-
+// Start the game when the window loads
 window.onload = () => {
     // Detect if the user is on a mobile device
     if (isMobileDevice()) {
@@ -41,10 +34,11 @@ window.onload = () => {
     document.addEventListener('click', startBackgroundMusic);
     document.addEventListener('keydown', startBackgroundMusic);
 
-    // Start AI control if enabled
-    if (aiControlEnabled) {
-        startAIForPlayer1();
-    }
+    // Start AI control for Player 2
+    startAIForPlayer2();
+
+    // Start the game timer
+    setTimeout(endGame, timeLimit);  // End the game after 2 minutes
 };
 
 function startBackgroundMusic() {
@@ -63,49 +57,33 @@ function isMobileDevice() {
     return /Mobi|Android/i.test(navigator.userAgent);
 }
 
-// AI for Player 1 (automated movements and firing)
-function startAIForPlayer1() {
+// AI for Player 2 (automated movements and firing)
+function startAIForPlayer2() {
     setInterval(() => {
         const randomMove = Math.random() > 0.5 ? -10 : 10;
-        movePlayer(player1, randomMove); // Randomly move up or down
+        movePlayer(player2, randomMove); // Randomly move up or down
         stepSound.play();
     }, 500); // Move every 500ms
 
     setInterval(() => {
-        fireFrisbee(player1, 'right'); // Fire towards Player 2
+        fireFrisbee(player2, 'left'); // Fire towards Player 1
         fireSound.play();
     }, 2000); // Fire every 2 seconds
 }
 
 // Keyboard controls for laptop/desktop
 function handleKeyDown(e) {
-    if (!aiControlEnabled) { // Only allow manual control if AI is disabled
-        switch (e.key) {
-            case 'w':
-                movePlayer(player1, -10);
-                stepSound.play();
-                break;
-            case 's':
-                movePlayer(player1, 10);
-                stepSound.play();
-                break;
-        }
-    }
     switch (e.key) {
-        case 'ArrowUp':
-            movePlayer(player2, -10);
+        case 'w':
+            movePlayer(player1, -10);
             stepSound.play();
             break;
-        case 'ArrowDown':
-            movePlayer(player2, 10);
+        case 's':
+            movePlayer(player1, 10);
             stepSound.play();
             break;
         case 'd':
             fireFrisbee(player1, 'right');
-            fireSound.play();
-            break;
-        case 'ArrowLeft':
-            fireFrisbee(player2, 'left');
             fireSound.play();
             break;
     }
@@ -121,7 +99,7 @@ function handleTouchStart(evt) {
 function handleTouchMove(evt) {
     evt.preventDefault();
     const touch = evt.touches[0];
-    const player = touch.clientX < window.innerWidth / 2 ? player1 : player2;
+    const player = touch.clientX < window.innerWidth / 2 ? player2 : player1;
     const moveY = touch.clientY - startY;
     
     movePlayer(player, moveY);
@@ -175,13 +153,12 @@ function fireFrisbee(player, direction) {
             clearInterval(frisbeeInterval);
             hitSound.play();
             if (direction === 'right') {
-                player1Score++;
+                player1Score += 2; // Player 1 gains 2 points for killing Player 2
             } else {
-                player2Score++;
+                player1Score -= 1; // Player 1 loses 1 point for being killed by Player 2
             }
             updateScore();
-            alert(`${direction === 'right' ? 'Player 1' : 'Player 2'} wins!`);
-            resetGame();
+            resetGame();  // Reset positions after a player is hit
         }
 
         // Check for collision with barriers or if the frisbee is out of bounds
@@ -256,16 +233,33 @@ function resetGame() {
     player1.style.top = '50%';
     player2.style.top = '50%';
 
-    // Show "GET READY" message for 2 seconds
     getReady.style.display = 'block';
-    setTimeout(() => getReady.style.display = 'none', 2000);
+    setTimeout(() => getReady.style.display = 'none', 2000);  // Show "GET READY" message for 2 seconds
 }
 
 // Function to update the score display
 function updateScore() {
     player1ScoreElement.innerText = player1Score;
-    player2ScoreElement.innerText = player2Score;
 }
 
-// Initial game reset
-resetGame();
+// Function to end the game and display the Game Over screen
+function endGame() {
+    // Remove all game elements
+    gameContainer.innerHTML = '';
+
+    // Display the Game Over screen with the final score
+    gameOverScreen.classList.add('game-over');
+    gameOverScreen.innerHTML = `
+        <h1>Game Over</h1>
+        <p>Final Score: ${player1Score}</p>
+        <button onclick="restartGame()">Play Again</button>
+    `;
+    gameContainer.appendChild(gameOverScreen);
+}
+
+// Function to restart the game
+function restartGame() {
+    player1Score = 0;
+    gameContainer.innerHTML = '';  // Clear the Game Over screen
+    location.reload();  // Reload the page to restart the game
+}
