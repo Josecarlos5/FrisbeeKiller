@@ -45,6 +45,15 @@
       font-size: 4vw;
   }
   
+  #chronometer {
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 4vw;
+      color: white;
+  }
+  
   #get-ready {
       position: absolute;
       top: 50%;
@@ -140,7 +149,7 @@
           font-size: 50px;
       }
   
-      #score {
+      #score, #chronometer {
           font-size: 20px;
       }
   

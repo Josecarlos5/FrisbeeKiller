@@ -5,7 +5,7 @@ const player2 = document.getElementById('player2');
 const gameContainer = document.getElementById('game-container');
 const getReady = document.getElementById('get-ready');
 const player1ScoreElement = document.getElementById('player1-score');
-const player2ScoreElement = document.getElementById('player2-score');
+const chronometerElement = document.getElementById('chronometer');
 const gameOverScreen = document.createElement('div');  // Create the Game Over screen element
 
 // Get references to audio elements
@@ -15,7 +15,9 @@ const hitSound = document.getElementById('hit-sound');
 const backgroundSound = document.getElementById('background-sound');
 
 let player1Score = 0;
-let timeLimit = 120000; // 2 minutes in milliseconds
+let timeLimit = 60000; // 1 minute in milliseconds
+let remainingTime = 60; // Countdown timer in seconds
+let timerInterval;
 
 // Start the game when the window loads
 window.onload = () => {
@@ -37,8 +39,11 @@ window.onload = () => {
     // Start AI control for Player 2
     startAIForPlayer2();
 
+    // Start the chronometer
+    timerInterval = setInterval(updateChronometer, 1000);
+
     // Start the game timer
-    setTimeout(endGame, timeLimit);  // End the game after 2 minutes
+    setTimeout(endGame, timeLimit);  // End the game after 1 minute
 };
 
 function startBackgroundMusic() {
@@ -74,15 +79,15 @@ function startAIForPlayer2() {
 // Keyboard controls for laptop/desktop
 function handleKeyDown(e) {
     switch (e.key) {
-        case 'w':
+        case 'ArrowUp':
             movePlayer(player1, -10);
             stepSound.play();
             break;
-        case 's':
+        case 'ArrowDown':
             movePlayer(player1, 10);
             stepSound.play();
             break;
-        case 'd':
+        case ' ':
             fireFrisbee(player1, 'right');
             fireSound.play();
             break;
@@ -242,8 +247,20 @@ function updateScore() {
     player1ScoreElement.innerText = player1Score;
 }
 
+// Function to update the chronometer
+function updateChronometer() {
+    remainingTime--;
+    chronometerElement.innerText = `Time Left: ${remainingTime}s`;
+
+    if (remainingTime <= 0) {
+        clearInterval(timerInterval); // Stop the chronometer
+    }
+}
+
 // Function to end the game and display the Game Over screen
 function endGame() {
+    clearInterval(timerInterval);  // Stop the chronometer
+
     // Remove all game elements
     gameContainer.innerHTML = '';
 
