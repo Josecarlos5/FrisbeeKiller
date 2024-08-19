@@ -7,28 +7,40 @@ const getReady = document.getElementById('get-ready');
 const player1ScoreElement = document.getElementById('player1-score');
 const chronometerElement = document.getElementById('chronometer');
 const gameOverScreen = document.createElement('div');  // Create the Game Over screen element
+const fireButton = document.getElementById('fire-button');  // Mobile Fire Button
 
 // Get references to audio elements
 const stepSound = document.getElementById('step-sound');
 const fireSound = document.getElementById('fire-sound');
 const hitSound = document.getElementById('hit-sound');
 const backgroundSound = document.getElementById('background-sound');
+const gameOverSound = document.getElementById('game-over-sound');  // Game Over Sound
 
 let player1Score = 0;
 let timeLimit = 60000; // 1 minute in milliseconds
 let remainingTime = 60; // Countdown timer in seconds
 let timerInterval;
+let backgroundMusicStarted = false;
+let gameOver = false;  // Flag to check if the game is over
 
 // Start the game when the window loads
 window.onload = () => {
     // Detect if the user is on a mobile device
     if (isMobileDevice()) {
-        // Set up touch controls for mobile
+        // Set up touch controls for mobile (Player 1 only)
         gameContainer.addEventListener('touchstart', handleTouchStart, false);
         gameContainer.addEventListener('touchmove', handleTouchMove, false);
         gameContainer.addEventListener('touchend', handleTouchEnd, false);
+
+        // Set up the mobile fire button for Player 1
+        fireButton.addEventListener('click', () => {
+            if (!gameOver) {
+                fireFrisbee(player1, 'right');
+                fireSound.play();
+            }
+        });
     } else {
-        // Set up keyboard controls for desktop/laptop
+        // Set up keyboard controls for desktop (Player 1 only)
         document.addEventListener('keydown', handleKeyDown);
     }
 
@@ -36,7 +48,7 @@ window.onload = () => {
     document.addEventListener('click', startBackgroundMusic);
     document.addEventListener('keydown', startBackgroundMusic);
 
-    // Start AI control for Player 2
+    // Start AI control for Player 2 on both mobile and desktop
     startAIForPlayer2();
 
     // Start the chronometer
@@ -62,67 +74,77 @@ function isMobileDevice() {
     return /Mobi|Android/i.test(navigator.userAgent);
 }
 
-// AI for Player 2 (automated movements and firing)
+// AI for Player 2 (automated movements and firing) on both mobile and desktop
 function startAIForPlayer2() {
     setInterval(() => {
-        const randomMove = Math.random() > 0.5 ? -10 : 10;
-        movePlayer(player2, randomMove); // Randomly move up or down
-        stepSound.play();
+        if (!gameOver) {
+            const randomMove = Math.random() > 0.5 ? -10 : 10;
+            movePlayer(player2, randomMove); // Randomly move up or down
+            stepSound.play();
+        }
     }, 500); // Move every 500ms
 
     setInterval(() => {
-        fireFrisbee(player2, 'left'); // Fire towards Player 1
-        fireSound.play();
+        if (!gameOver) {
+            fireFrisbee(player2, 'left'); // Fire towards Player 1
+            fireSound.play();
+        }
     }, 2000); // Fire every 2 seconds
 }
 
-// Keyboard controls for laptop/desktop
+// Keyboard controls for laptop/desktop (Player 1 only)
 function handleKeyDown(e) {
-    switch (e.key) {
-        case 'ArrowUp':
-            movePlayer(player1, -10);
-            stepSound.play();
-            break;
-        case 'ArrowDown':
-            movePlayer(player1, 10);
-            stepSound.play();
-            break;
-        case ' ':
-            fireFrisbee(player1, 'right');
-            fireSound.play();
-            break;
+    if (!gameOver) {
+        switch (e.key) {
+            case 'ArrowUp':
+                movePlayer(player1, -10);
+                stepSound.play();
+                break;
+            case 'ArrowDown':
+                movePlayer(player1, 10);
+                stepSound.play();
+                break;
+            case ' ':
+                fireFrisbee(player1, 'right');
+                fireSound.play();
+                break;
+        }
     }
 }
 
-// Touch controls for mobile
+// Touch controls for mobile (Player 1 only)
 function handleTouchStart(evt) {
-    const firstTouch = evt.touches[0];
-    startX = firstTouch.clientX;
-    startY = firstTouch.clientY;
+    if (!gameOver) {
+        const firstTouch = evt.touches[0];
+        startX = firstTouch.clientX;
+        startY = firstTouch.clientY;
+    }
 }
 
 function handleTouchMove(evt) {
-    evt.preventDefault();
-    const touch = evt.touches[0];
-    const player = touch.clientX < window.innerWidth / 2 ? player2 : player1;
-    const moveY = touch.clientY - startY;
-    
-    movePlayer(player, moveY);
-    stepSound.play();
-    
-    startY = touch.clientY;
+    if (!gameOver) {
+        evt.preventDefault();
+        const touch = evt.touches[0];
+        const moveY = touch.clientY - startY;
+
+        movePlayer(player1, moveY); // Control Player 1 on mobile
+        stepSound.play();
+
+        startY = touch.clientY;
+    }
 }
 
 function handleTouchEnd(evt) {
-    endX = evt.changedTouches[0].clientX;
-    endY = evt.changedTouches[0].clientY;
+    if (!gameOver) {
+        endX = evt.changedTouches[0].clientX;
+        endY = evt.changedTouches[0].clientY;
 
-    const direction = endX < window.innerWidth / 2 ? 'left' : 'right';
-    const player = direction === 'left' ? player2 : player1;
+        const direction = endX > window.innerWidth / 2 ? 'right' : 'left';
 
-    if (Math.abs(endY - startY) < 50) { // Small vertical movement means a tap, so fire frisbee
-        fireFrisbee(player, direction);
-        fireSound.play();
+        if (Math.abs(endY - startY) < 50 && direction === 'right') { // Fire only when swiping/tapping right
+            fireFrisbee(player1, direction);
+            fireSound.play();
+        }
     }
 }
 
@@ -153,7 +175,7 @@ function fireFrisbee(player, direction) {
         frisbee.style.left = `${left}px`;
 
         // Check for collision with the other player
-        if (checkCollision(frisbee, direction === 'right' ? player2 : player1)) {
+        if (!gameOver && checkCollision(frisbee, direction === 'right' ? player2 : player1)) {
             frisbee.remove();
             clearInterval(frisbeeInterval);
             hitSound.play();
@@ -168,7 +190,7 @@ function fireFrisbee(player, direction) {
 
         // Check for collision with barriers or if the frisbee is out of bounds
         const hitBarrier = checkCollisionWithBarriers(frisbee);
-        if (hitBarrier) {
+        if (!gameOver && hitBarrier) {
             clearInterval(frisbeeInterval);
             frisbee.remove();
             // Gradually fade out the barrier
@@ -186,12 +208,14 @@ function fireFrisbee(player, direction) {
 function fadeOutBarrier(barrier) {
     let opacity = 1;
     const fadeInterval = setInterval(() => {
-        opacity -= 0.05;
-        if (opacity <= 0) {
-            barrier.remove();
-            clearInterval(fadeInterval);
-        } else {
-            barrier.style.opacity = opacity;
+        if (!gameOver) {
+            opacity -= 0.05;
+            if (opacity <= 0) {
+                barrier.remove();
+                clearInterval(fadeInterval);
+            } else {
+                barrier.style.opacity = opacity;
+            }
         }
     }, 50); // Reduce opacity every 50 milliseconds
 }
@@ -260,6 +284,12 @@ function updateChronometer() {
 // Function to end the game and display the Game Over screen
 function endGame() {
     clearInterval(timerInterval);  // Stop the chronometer
+    gameOver = true;  // Set gameOver flag to true
+
+    // Stop the background music and play the game-over music
+    backgroundSound.pause();
+    backgroundSound.currentTime = 0;
+    gameOverSound.play();
 
     // Remove all game elements
     gameContainer.innerHTML = '';
@@ -277,6 +307,7 @@ function endGame() {
 // Function to restart the game
 function restartGame() {
     player1Score = 0;
+    gameOver = false;  // Reset gameOver flag
     gameContainer.innerHTML = '';  // Clear the Game Over screen
     location.reload();  // Reload the page to restart the game
 }

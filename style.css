@@ -65,8 +65,8 @@
   
   .player {
       position: absolute;
-      width: 12vw; /* Increased player size */
-      height: 12vw;
+      width: 18vw; /* Increased player size */
+      height: 18vw;
   }
   
   .player img {
@@ -121,6 +121,27 @@
       font-size: 8vw;
   }
   
+  /* Mobile Fire Button */
+  .mobile-button {
+      display: none; /* Hidden by default, shown on mobile */
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      padding: 15px;
+      font-size: 20px;
+      font-family: 'Press Start 2P', cursive;
+      background-color: yellow;
+      color: black;
+      border: none;
+      cursor: pointer;
+  }
+  
+  @media only screen and (max-width: 799px) {
+      .mobile-button {
+          display: block; /* Show button on mobile */
+      }
+  }
+  
   /* Specific styles for laptops and larger screens */
   @media only screen and (min-width: 800px) {
       #game-container {
@@ -129,8 +150,8 @@
       }
       
       .player {
-          width: 80px;
-          height: 80px;
+          width: 120px; /* Increase player size */
+          height: 120px;
       }
   
       #sun {
